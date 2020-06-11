@@ -1,4 +1,4 @@
-#Raydel Abreu CM2ESP 10/06/2020
+#Raydel Abreu CM2ESP 11/06/2020
 #Use it for convert from VIRGO file format into CFRAD format
 from numpy import loadtxt
 import numpy as np
@@ -39,9 +39,8 @@ maxVal=np.max(lines)
 topLevel=2.0
 multiplier=topLevel/maxVal
 lines*=multiplier
-
-print np.min(lines)
-print np.max(lines)
+#print np.min(lines)
+#print np.max(lines)
 
 #Average scans if needed. Otherwise just save as it is
 for i in range(0,numScan,vertInt):
