@@ -1,10 +1,12 @@
+#Raydel Abreu CM2ESP 10/06/2020
+#Use it for convert from Spectro Radiometer file format into CFRAD format
 from numpy import loadtxt
 import numpy as np
 
 #FFT bins per scan line in source
 fftBins = 2048
 
-#Exclude columns at first
+#Exclude columns at first. (First 9 columns contain time data and not FFT bins)
 ignoreCol = 9
 
 #How many scans to average into a single line
@@ -16,7 +18,7 @@ sourceFile = "h120200609-0-spec.csv"
 lines = loadtxt(sourceFile, comments="#", delimiter=",", unpack=False, usecols=range(ignoreCol,ignoreCol+fftBins))
 
 #####
-#Secondary file for merge if needed
+#Secondary file for merge if needed, it is appended at the end of first file. Comment if not needed
 secondFile = "h120200610-0-spec.csv"
 secondLines = loadtxt(secondFile, comments="#", delimiter=",", unpack=False, usecols=range(ignoreCol,ignoreCol+fftBins))
 #Append second file
@@ -39,7 +41,7 @@ for i in range(0,numScan,vertInt):
        for sets in range(avgFrom,avgTo):
            scanAvg=scanAvg+lines[sets]
        scanAvg=scanAvg/(vertInt)
-       #Now linearize
+       #Now linearize. Spectro Radiometer outputs FFT in dB and CFRAD uses linear units.
        linearScan = [pow(10,x/20.0) for x in scanAvg]
        #print linearScan
        outScans.append(linearScan)
